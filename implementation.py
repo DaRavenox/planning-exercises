@@ -52,9 +52,11 @@ class CarDynamics(GenericKinematicsSE2):
         check_isinstance(commands, CarCommands)
 
         # Your code comes here!
-        theta = np.pi
-        linear = [commands.linear_velocity*np.cos(theta), commands.linear_velocity*np.sin(theta)]
+        linear = [commands.linear_velocity, 0]
         angular = commands.linear_velocity/self.parameters.wheel_distance*np.tan(commands.steering_angle)
+        # represent this as se(2)
+        commands_se2 = geo.se2_from_linear_angular(linear, angular)
+
         # represent this as se(2)
         commands_se2 = geo.se2_from_linear_angular(linear, angular)
 
